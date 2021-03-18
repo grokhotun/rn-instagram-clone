@@ -1,31 +1,24 @@
 import React from 'react'
-import {StyleSheet, View} from 'react-native'
+import {Provider} from 'react-redux'
+import {createStackNavigator} from '@react-navigation/stack'
+import {NavigationContainer} from '@react-navigation/native'
 
-import {Header} from 'components/Header'
-import {Feed} from 'components/Feed'
-import {Footer} from 'components/Footer'
+import {SignInScreen} from 'src/screens/SignInScreen'
+// import {FeedScreen} from 'src/screens/FeedScreen'
+import {ProfileScreen} from 'src/screens/ProfileScreen'
+import store from 'src/redux'
+
+const RootStack = createStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Header style={styles.header}/>
-      <Feed style={styles.feed}/>
-      <Footer style={styles.footer}/>
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootStack.Navigator>
+          <RootStack.Screen name='SignIn' component={SignInScreen} options={{headerShown: false}} />
+          <RootStack.Screen name='Profile' component={ProfileScreen} options={{headerShown: false}} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </Provider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 30,
-    backgroundColor: '#fff',
-    justifyContent: 'space-between',
-  },
-  header: {
-    height: '10%'
-  },
-  feed: {},
-  footer: {
-    height: '10%'
-  }
-})
