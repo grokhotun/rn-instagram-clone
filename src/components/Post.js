@@ -5,7 +5,7 @@ import {EvilIcons} from '@expo/vector-icons'
 
 export function Post() {
   return (
-    <View style={styles.postCard}>
+    <View style={styles.card}>
       <View style={styles.header}>
         <View style={styles.profile}>
           <Image style={styles.avatar} source={require('assets/user01.png')}/>
@@ -19,15 +19,20 @@ export function Post() {
         <Image source={require('assets/post.png')}/>
       </View>
       <View style={styles.footer}>
-        <EvilIcons name="heart" size={30} color="black" />
-        <EvilIcons name='comment' size={30} color='black' />
+        <View style={styles.footerActions}>
+          <EvilIcons name="heart" size={35} color="black" />
+          <EvilIcons name='comment' size={35} color='black' />
+        </View>
+        <View style={styles.footerDesc}>
+          <Text>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,</Text>
+        </View>
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  postCard: {
+  card: {
     justifyContent: 'space-between',
     width: '100%'
   },
@@ -58,5 +63,11 @@ const styles = StyleSheet.create({
   },
   footer: {
     padding: 10
-  }
+  },
+  footerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  footerDesc: {}
 })
