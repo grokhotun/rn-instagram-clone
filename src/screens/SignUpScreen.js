@@ -1,9 +1,12 @@
 import React from 'react'
 import {View, Image, StyleSheet} from 'react-native'
+import PropTypes from 'prop-types'
+
 import {Input} from 'src/ui/Input'
 import {Btn} from 'src/ui/Btn'
+export function SignUpScreen({navigation}) {
+  const toSignIn = () => navigation.navigate('SignIn')
 
-export function SignUpScreen() {
   return (
     <View style={styles.wrapper}>
       <View style={styles.header}>
@@ -11,16 +14,23 @@ export function SignUpScreen() {
       </View>
       <View style={styles.body}>
         <Input style={{marginBottom: 10}} placeholder='Логин'/>
-        <Input secureTextEntry={true} placeholder='Пароль'/>
+        <Input style={{marginBottom: 10}} secureTextEntry={true} placeholder='Пароль'/>
         <Input secureTextEntry={true} placeholder='Повторите пароль'/>
       </View>
       <View style={styles.footer}>
         <Btn style={{marginBottom: 10}}>
           Зарегистрироваться
         </Btn>
+        <Btn onPress={toSignIn} style={{marginBottom: 10}}>
+          Зарегистрированы? Войти
+        </Btn>
       </View>
     </View>
   )
+}
+
+SignUpScreen.propTypes = {
+  navigation: PropTypes.object
 }
 
 const styles = StyleSheet.create({

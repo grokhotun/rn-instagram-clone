@@ -1,9 +1,12 @@
 import React from 'react'
 import {View, Image, StyleSheet} from 'react-native'
-import {Input} from 'src/ui/Input'
-import {Btn} from 'src/ui/Btn'
+import PropTypes from 'prop-types'
 
-export function SignInScreen() {
+import {Btn} from 'src/ui/Btn'
+import {Input} from 'src/ui/Input'
+export function SignInScreen({navigation}) {
+  const toRegister = () => navigation.navigate('SignUp')
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.header}>
@@ -17,12 +20,16 @@ export function SignInScreen() {
         <Btn style={{marginBottom: 10}}>
           Войти
         </Btn>
-        <Btn style={{marginBottom: 10}}>
+        <Btn onPress={toRegister} style={{marginBottom: 10}}>
           Регистрация
         </Btn>
       </View>
     </View>
   )
+}
+
+SignInScreen.propTypes = {
+  navigation: PropTypes.object
 }
 
 const styles = StyleSheet.create({
