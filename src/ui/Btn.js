@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 export function Btn({style, children, onPress}) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
       <View style={{...styles.default, ...style}}>
         <Text style={styles.text}>
           {children}
