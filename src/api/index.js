@@ -1,0 +1,50 @@
+import firebase from 'firebase/app'
+import 'firebase/storage'
+import 'firebase/auth'
+import 'firebase/firestore'
+import {firebaseConfig} from 'root/firebase.config.js'
+
+/**
+ * Класс для работы с Firebase API
+ */
+class FirebaseAPI {
+  constructor(config = {}) {
+    firebase.initializeApp(config)
+  }
+
+  /**
+   * Метод для регистрации нового пользователя
+   * @param {string} email Email
+   * @param {string} password Пароль
+   */
+  async signUp(email, password) {
+    try {
+      const {user} = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+      return user
+    } catch (error) {
+      console.error(`Ошибка в методе signUp()\n\n${error.message}`)
+      return false
+    }
+  }
+
+  /**
+   * Метод для входа пользователя в систему
+   * @param {string} email Email
+   * @param {string} password Пароль
+   */
+  async signIn(email, password) {
+    try {
+      const response = await firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+      return response
+    } catch (error) {
+      console.error(`Ошибка в методе signIn()\n\n${error.message}`)
+      return false
+    }
+  }
+}
+
+export const $api = new FirebaseAPI(firebaseConfig)

@@ -2,9 +2,11 @@ import React from 'react'
 import {StyleSheet, TextInput} from 'react-native'
 import PropTypes from 'prop-types'
 
-export function Input({style, placeholder, secureTextEntry}) {
+export function Input({style, placeholder, secureTextEntry, onChange, value}) {
   return (
     <TextInput
+      value={value}
+      onChangeText={onChange}
       secureTextEntry={secureTextEntry}
       style={{...styles.default, ...style}}
       placeholder={placeholder}
@@ -15,7 +17,9 @@ export function Input({style, placeholder, secureTextEntry}) {
 Input.propTypes = {
   style: PropTypes.object,
   placeholder: PropTypes.string,
-  secureTextEntry: PropTypes.bool
+  secureTextEntry: PropTypes.bool,
+  onChange: PropTypes.func,
+  value: PropTypes.string
 }
 
 const styles = StyleSheet.create({
