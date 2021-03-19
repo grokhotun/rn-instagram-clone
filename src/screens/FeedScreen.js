@@ -17,10 +17,6 @@ export function FeedScreen({navigation}) {
   )
 }
 
-FeedScreen.navigationOptions = {
-  headerTitle: 'Главная страница'
-}
-
 FeedScreen.propTypes = {
   navigation: PropTypes.object
 }
