@@ -1,10 +1,10 @@
-import {createStore, combineReducers} from 'redux'
-import {postReducer} from './reducers/post'
+import {createStore, applyMiddleware, combineReducers} from 'redux'
+import thunk from 'redux-thunk'
+
 import {userReducer} from './reducers/user'
+import {feedReducer} from './reducers/feed'
 
-const rootReducer = combineReducers({
-  post: postReducer,
-  user: userReducer
-})
-
-export default createStore(rootReducer)
+export default createStore(combineReducers({
+  userState: userReducer,
+  feedState: feedReducer
+}), applyMiddleware(thunk))

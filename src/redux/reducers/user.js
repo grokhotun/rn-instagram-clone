@@ -1,7 +1,15 @@
 const initialState = {
-  user: null
+  currentUser: true
 }
 
 export const userReducer = (state = initialState, action) => {
-  return state
+  switch (action.type) {
+    case 'SET_USER':
+      return {
+        ...state,
+        currentUser: action.payload
+      }
+    default:
+      return state
+  }
 }
