@@ -11,6 +11,18 @@ const signInUser = (email, password) => async (dispatch) => {
   dispatch(setUser(user))
 }
 
+const signUpUser = (email, password) => async (dispatch) => {
+  const user = await $api.signUp(email, password)
+  dispatch(setUser(user))
+}
+
+const signOutUser = () => async (dispatch) => {
+  await $api.signOut()
+  dispatch(setUser(null))
+}
+
 export {
-  signInUser
+  signInUser,
+  signUpUser,
+  signOutUser
 }
