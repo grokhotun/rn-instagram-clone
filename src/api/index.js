@@ -12,6 +12,26 @@ class FirebaseAPI {
     firebase.initializeApp(config)
   }
 
+  async $createCollectionUser(user) {
+    const {uid, email} = user
+    try {
+      await firebase
+          .firestore()
+          .collection('users')
+          .doc(uid)
+          .set({
+            uid,
+            email,
+            createdAt: Date.now().toString(),
+            login: email.split('@')[0],
+            name: email.split('@')[0],
+            photo: ''
+          })
+    } catch (error) {
+      console.error(`Ошибка в методе createCollectionRecord()\n\n${error.message}`)
+    }
+  }
+
   /**
    * Метод для регистрации нового пользователя
    * @param {string} email Email
@@ -22,6 +42,7 @@ class FirebaseAPI {
       const {user} = await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
+      this.$createCollectionUser(user)
       return user
     } catch (error) {
       console.error(`Ошибка в методе signUp()\n\n${error.message}`)
@@ -42,6 +63,18 @@ class FirebaseAPI {
       return response
     } catch (error) {
       console.error(`Ошибка в методе signIn()\n\n${error.message}`)
+      return false
+    }
+  }
+
+  async signOut() {
+    try {
+      await firebase
+          .auth()
+          .signOut()
+      return true
+    } catch (error) {
+      console.error(`Ошибка в методе signOut()\n\n${error.message}`)
       return false
     }
   }
