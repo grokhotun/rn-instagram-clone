@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     height: '10%'
   },
   body: {
+    height: '90%',
     width: '100%',
-    height: '100%'
   },
   searchbar: {
     padding: 10

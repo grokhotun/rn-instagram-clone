@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import {getFeed} from 'src/redux/actions/feed'
 
-import {Header} from 'components/Header'
+import Header from 'components/Header'
 import {Post} from 'components/Post'
 // import {Feed} from 'components/Feed'
 // import {Footer} from 'components/Footer'

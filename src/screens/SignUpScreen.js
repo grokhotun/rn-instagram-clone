@@ -1,12 +1,14 @@
 import React, {useState} from 'react'
+import {connect} from 'react-redux'
 import {View, Image, StyleSheet} from 'react-native'
 import PropTypes from 'prop-types'
 
+import {signUpUser} from 'src/redux/actions/user'
+
 import {Input} from 'src/ui/Input'
 import {Btn} from 'src/ui/Btn'
-import {$api} from 'src/api'
 
-export function SignUpScreen({navigation}) {
+function SignUpScreen({navigation, signUp}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
@@ -15,9 +17,8 @@ export function SignUpScreen({navigation}) {
   const onEmailChangeHandler = (value) => setEmail(value)
   const onPasswordChangeHandler = (value) => setPassword(value)
   const onRepeatPasswordChangeHandler = (value) => setRepeatPassword(value)
-  const onSignUp = async () => {
-    const user = await $api.signUp(email, password)
-    console.log(user)
+  const onSignUp = () => {
+    signUp(email, password)
   }
 
   return (
@@ -57,7 +58,8 @@ export function SignUpScreen({navigation}) {
 }
 
 SignUpScreen.propTypes = {
-  navigation: PropTypes.object
+  navigation: PropTypes.object,
+  signUp: PropTypes.func
 }
 
 const styles = StyleSheet.create({
@@ -75,3 +77,10 @@ const styles = StyleSheet.create({
   },
   footer: {}
 })
+
+const mapStateToProps = () => ({})
+const mapDispatchToProps = (dispatch) => ({
+  signUp: (email, password) => dispatch(signUpUser(email, password))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)
