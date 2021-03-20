@@ -1,73 +1,82 @@
 import React from 'react'
 import {StyleSheet, Text, View, Image} from 'react-native'
-import {Feather} from '@expo/vector-icons'
 import {EvilIcons} from '@expo/vector-icons'
+import PropTypes from 'prop-types'
+import {Avatar} from './Avatar'
 
-export function Post() {
+export function Post({post}) {
+  // eslint-disable-next-line no-unused-vars
+  const {createdAt, description, image, likes} = post
   return (
-    <View style={styles.card}>
+    <View style={styles.postCard}>
       <View style={styles.header}>
-        <View style={styles.profile}>
-          <Image style={styles.avatar} source={require('assets/user01.png')}/>
-          <Text style={styles.name}>john_smith</Text>
-        </View>
-        <View>
-          <Feather name='more-horizontal' size={24} color='black' />
-        </View>
+        <Avatar
+          style={styles.headerPhoto}
+          source={'https://vjoy.cc/wp-content/uploads/2020/07/bezymyannyjv-11.jpg'}
+        />
+        <Text style={styles.headerName}>john_smith</Text>
       </View>
       <View style={styles.body}>
-        <Image source={require('assets/post.png')}/>
+        <Image style={styles.bodyImg} source={{uri: image}}/>
       </View>
       <View style={styles.footer}>
-        <View style={styles.footerActions}>
-          <EvilIcons name="heart" size={35} color="black" />
-          <EvilIcons name='comment' size={35} color='black' />
+        <View style={styles.footerLike}>
+          <EvilIcons name='heart' size={35} color='black' />
         </View>
-        <View style={styles.footerDesc}>
-          <Text>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,</Text>
-        </View>
+        <Text style={styles.footerLikes}>
+          Нравится: {likes}
+        </Text>
+        <Text style={styles.footerDescription}>
+          {description}
+        </Text>
       </View>
     </View>
   )
 }
 
+Post.propTypes = {
+  post: PropTypes.object
+}
+
 const styles = StyleSheet.create({
-  card: {
-    justifyContent: 'space-between',
-    width: '100%'
+  postCard: {
+    width: '100%',
+    height: 500
   },
   header: {
-    backgroundColor: '#fff',
     width: '100%',
+    backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 15,
-    paddingBottom: 15
+    padding: 10
   },
-  profile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
+  headerPhoto: {
+    height: 50,
+    width: 50,
     marginRight: 10
   },
-  name: {
+  headerName: {
     fontWeight: 'bold'
   },
   body: {
+    flex: 1,
     width: '100%',
     backgroundColor: 'white'
+  },
+  bodyImg: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
   footer: {
     padding: 10
   },
-  footerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  footerLike: {
     marginBottom: 10
   },
-  footerDesc: {}
+  footerLikes: {
+    fontWeight: 'bold',
+    marginBottom: 5
+  },
+  footerDescription: {}
 })

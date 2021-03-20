@@ -1,19 +1,21 @@
 import React, {useState} from 'react'
+import {connect} from 'react-redux'
 import {View, Image, StyleSheet} from 'react-native'
 import PropTypes from 'prop-types'
 
+import {signInUser} from 'src/redux/actions/user'
+
 import {Btn} from 'src/ui/Btn'
 import {Input} from 'src/ui/Input'
-export function SignInScreen({navigation}) {
+
+function SignInScreen({navigation, authUser}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const toRegister = () => navigation.navigate('SignUp')
   const onEmailChangeHandler = (value) => setEmail(value)
   const onPasswordChangeHandler = (value) => setPassword(value)
-  const signIn = () => {
-    console.log(email, password)
-  }
+  const signIn = () => authUser(email, password)
 
   return (
     <View style={styles.wrapper}>
@@ -49,7 +51,8 @@ export function SignInScreen({navigation}) {
 }
 
 SignInScreen.propTypes = {
-  navigation: PropTypes.object
+  navigation: PropTypes.object,
+  authUser: PropTypes.func
 }
 
 const styles = StyleSheet.create({
@@ -67,3 +70,9 @@ const styles = StyleSheet.create({
   },
   footer: {}
 })
+
+const mapDispatchToProps = (dispatch) => ({
+  authUser: (email, password) => dispatch(signInUser(email, password))
+})
+
+export default connect(null, mapDispatchToProps)(SignInScreen)

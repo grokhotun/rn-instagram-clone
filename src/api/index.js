@@ -45,6 +45,24 @@ class FirebaseAPI {
       return false
     }
   }
+
+  /**
+   * Метод для получения ленты пользователя
+   */
+  async getFeed() {
+    try {
+      const response = await firebase
+          .firestore()
+          .collection('posts')
+          .get()
+
+      const data = response.docs.map(post => ({...post.data()}))
+      return data
+    } catch (error) {
+      console.error(`Ошибка в методе getFeed()\n\n${error.message}`)
+      return false
+    }
+  }
 }
 
 export const $api = new FirebaseAPI(firebaseConfig)
