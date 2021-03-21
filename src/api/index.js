@@ -32,6 +32,26 @@ class FirebaseAPI {
     }
   }
 
+  async createCollectionPost(user) {
+    const {uid, email} = user
+    try {
+      await firebase
+          .firestore()
+          .collection('users')
+          .doc(uid)
+          .set({
+            uid,
+            email,
+            createdAt: Date.now().toString(),
+            login: email.split('@')[0],
+            name: email.split('@')[0],
+            photo: ''
+          })
+    } catch (error) {
+      console.error(`Ошибка в методе createCollectionPost()\n\n${error.message}`)
+    }
+  }
+
   /**
    * Метод для регистрации нового пользователя
    * @param {string} email Email
@@ -95,6 +115,23 @@ class FirebaseAPI {
       console.error(`Ошибка в методе getFeed()\n\n${error.message}`)
       return false
     }
+  }
+
+  /**
+   * Метод для загрузки фотографий в firebase firestore
+   * @param {object} user Объект пользователя
+   * @param {object} file Объект File
+   * @return {*} Возвращает объект task
+   */
+  uploadPhoto(user, file) {
+    const uid = Math.random().toString(36)
+    const path = `posts/${uid}/${Math.random().toString(36)}`
+    const task = firebase
+        .storage()
+        .ref()
+        .child(path)
+        .put(file)
+    return task
   }
 }
 
