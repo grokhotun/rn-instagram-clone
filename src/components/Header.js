@@ -1,27 +1,24 @@
 import React from 'react'
 import {View, StyleSheet, Image} from 'react-native'
 import PropTypes from 'prop-types'
-import {Ionicons} from '@expo/vector-icons'
-import {Feather} from '@expo/vector-icons'
 import {connect} from 'react-redux'
 
 import {signOutUser} from 'src/redux/actions/user'
-function Header({style, signOut}) {
+function Header({navigation, style, signOut}) {
   return (
     <View style={{...styles.header, ...style}}>
-      <Ionicons name='camera-outline' size={27} color='black' />
-      <Image style={{width: 100}} source={require('assets/instagram.png')}/>
-      <Feather onPress={signOut} name='send' size={27} color='black' />
+      <Image
+        style={{width: 100}}
+        source={require('assets/instagram.png')}/>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   header: {
-    borderBottomWidth: .2,
+    borderBottomWidth: 0.2,
     borderBottomColor: '#000',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
     padding: 10
@@ -29,6 +26,7 @@ const styles = StyleSheet.create({
 })
 
 Header.propTypes = {
+  navigation: PropTypes.object,
   style: PropTypes.object,
   signOut: PropTypes.func
 }

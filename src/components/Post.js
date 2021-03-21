@@ -5,16 +5,15 @@ import PropTypes from 'prop-types'
 import {Avatar} from './Avatar'
 
 export function Post({post}) {
-  // eslint-disable-next-line no-unused-vars
-  const {createdAt, description, image, likes} = post
+  const {avatar, ulogin, description, image, likes} = post
   return (
     <View style={styles.postCard}>
       <View style={styles.header}>
         <Avatar
           style={styles.headerPhoto}
-          source={'https://vjoy.cc/wp-content/uploads/2020/07/bezymyannyjv-11.jpg'}
+          source={avatar}
         />
-        <Text style={styles.headerName}>john_smith</Text>
+        <Text style={styles.headerName}>{ulogin}</Text>
       </View>
       <View style={styles.body}>
         <Image style={styles.bodyImg} source={{uri: image}}/>
