@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {NavigationContainer} from '@react-navigation/native'
 import {Ionicons} from '@expo/vector-icons'
+import {Entypo} from '@expo/vector-icons'
 
 import {Avatar} from 'src/components/Avatar'
 
@@ -55,18 +56,22 @@ function cameraStackScreen() {
 
 function homeStackScreen() {
   return (
-    <Tabs.Navigator tabBarOptions={{showLabel: false}}>
+    <Tabs.Navigator
+      tabBarOptions={{
+        showLabel: false
+      }}>
       <Tabs.Screen
         options={{
           // eslint-disable-next-line react/display-name
-          tabBarIcon: () => <Ionicons name="home" size={24} color="black" />
+          tabBarIcon: () => <Ionicons style={{textAlign: 'center'}} name='home' size={24} color='black' />
         }}
         name='Feed'
         component={FeedScreen} />
       <Tabs.Screen
         options={{
+          unmountOnBlur: true,
           // eslint-disable-next-line react/display-name
-          tabBarIcon: () => <Ionicons name="search" size={24} color="black" />
+          tabBarIcon: () => <Entypo style={{textAlign: 'center'}} name='camera' size={24} color='black' />
         }}
         name='Search'
         component={cameraStackScreen}/>
