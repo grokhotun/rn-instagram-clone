@@ -1,18 +1,17 @@
 import React from 'react'
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native'
+import {StyleSheet, TouchableOpacity, Text} from 'react-native'
 import PropTypes from 'prop-types'
 
 export function Btn({style, children, onPress, disabled}) {
   return (
     <TouchableOpacity
+      style={{...styles.default, ...style}}
       disabled={disabled}
       onPress={onPress}
       activeOpacity={0.7}>
-      <View style={{...styles.default, ...style}}>
-        <Text style={styles.text}>
-          {children}
-        </Text>
-      </View>
+      <Text style={styles.text}>
+        {children}
+      </Text>
     </TouchableOpacity>
   )
 }
@@ -26,7 +25,7 @@ Btn.propTypes = {
 
 const styles = StyleSheet.create({
   default: {
-    width: 250,
+    width: '100%',
     padding: 10,
     backgroundColor: '#0095f6',
     borderRadius: 4
