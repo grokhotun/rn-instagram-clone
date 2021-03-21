@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {StyleSheet, View} from 'react-native'
+// import {StackActions} from '@react-navigation/native'
 
 import Wrapper from 'src/ui/Wrapper'
 import Img from 'src/ui/Img'
@@ -7,7 +8,19 @@ import {Btn} from 'src/ui/Btn'
 import {Input} from 'src/ui/Input'
 import PropTypes from 'prop-types'
 
-function EditScreen({route}) {
+import {createImageBlob} from 'src/utils'
+import {uploadPhoto} from 'src/redux/actions/upload'
+import {connect} from 'react-redux'
+function EditScreen({navigation, route, sendPhoto}) {
+  const [description, setDescription] = useState('')
+
+  const sendHandler = async () => {
+    const imageUri = route.params.image
+    const blob = await createImageBlob(imageUri)
+    sendPhoto({}, blob)
+    navigation.navigate('Feed')
+  }
+
   return (
     <Wrapper style={styles.wrapper}>
       <View style={styles.row}>
@@ -19,6 +32,7 @@ function EditScreen({route}) {
         </View>
         <View style={styles.description}>
           <Input
+            value={description}
             multiline={true}
             numberOfLines={8}
             textAlignVertical='top'
@@ -28,14 +42,16 @@ function EditScreen({route}) {
         </View>
       </View>
       <View style={styles.row}>
-        <Btn>Отправить</Btn>
+        <Btn onPress={sendHandler}>Отправить</Btn>
       </View>
     </Wrapper>
   )
 }
 
 EditScreen.propTypes = {
-  route: PropTypes.object
+  route: PropTypes.object,
+  navigation: PropTypes.object,
+  sendPhoto: PropTypes.func
 }
 
 const styles = StyleSheet.create({
@@ -57,4 +73,9 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EditScreen
+const mapStateToProps = () => ({})
+const mapDispatchToProps = (dispatch) => ({
+  sendPhoto: (user, photo) => dispatch(uploadPhoto(user, photo))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditScreen)
