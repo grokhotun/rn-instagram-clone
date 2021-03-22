@@ -1,15 +1,15 @@
 import React from 'react'
-import {View, StyleSheet, Image} from 'react-native'
+import {View, StyleSheet} from 'react-native'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 import {signOutUser} from 'src/redux/actions/user'
-function Header({navigation, style, signOut}) {
+
+import Img from 'src/ui/Img'
+function Header({navigation, style, signOut, currentUser, children}) {
   return (
     <View style={{...styles.header, ...style}}>
-      <Image
-        style={{width: 100}}
-        source={require('assets/instagram.png')}/>
+      {children ? children : <Img style={styles.logo} objectFit='contain' fromWeb={false} source={require('root/assets/instagram.png')}/>}
     </View>
   )
 }
@@ -19,19 +19,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2,
     borderBottomColor: '#000',
     flexDirection: 'row',
-    alignItems: 'center',
     width: '100%',
-    padding: 10
+    padding: 10,
+    minHeight: 60
+  },
+  logo: {
+    width: 100
   }
 })
 
 Header.propTypes = {
   navigation: PropTypes.object,
   style: PropTypes.object,
-  signOut: PropTypes.func
+  currentUser: PropTypes.object,
+  signOut: PropTypes.func,
+  children: PropTypes.any
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({userState}) => ({
+  currentUser: userState.currentUser
+})
 const mapDispatchToProps = (dispatch) => ({
   signOut: () => dispatch(signOutUser())
 })
