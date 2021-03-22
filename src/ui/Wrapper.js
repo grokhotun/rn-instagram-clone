@@ -18,6 +18,7 @@ Wrapper.propTypes = {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    height: '100%',
     paddingTop: 30,
     backgroundColor: '#ffffff'
   }

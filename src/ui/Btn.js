@@ -27,12 +27,13 @@ const styles = StyleSheet.create({
   default: {
     width: '100%',
     padding: 10,
-    backgroundColor: '#0095f6',
+    borderWidth: 1,
+    borderColor: 'grey',
     borderRadius: 4
   },
   text: {
+    color: '#000',
     textAlign: 'center',
-    color: '#fff',
     fontWeight: 'bold'
   }
 })

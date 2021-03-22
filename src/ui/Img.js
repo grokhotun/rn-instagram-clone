@@ -2,23 +2,34 @@ import React from 'react'
 import {StyleSheet, View, Image} from 'react-native'
 import PropTypes from 'prop-types'
 
-function Img({style, source, objectFit}) {
-  const imageSource = source ? {uri: source} : require('root/assets/icon.png')
+function Img({source, style, objectFit, fromWeb = true}) {
   const resizeMode = objectFit || 'cover'
-  return (
-    <View style={{...styles.default, ...style}}>
-      <Image
-        style={{...styles.img, resizeMode: resizeMode}}
-        source={imageSource}
-      />
-    </View>
-  )
+  if (fromWeb) {
+    return (
+      <View style={{...styles.default, ...style}}>
+        <Image
+          style={{...styles.img, resizeMode: resizeMode}}
+          source={{uri: source}}
+        />
+      </View>
+    )
+  } else {
+    return (
+      <View style={{...styles.default, ...style}}>
+        <Image
+          style={{...styles.img, resizeMode: resizeMode}}
+          source={source}
+        />
+      </View>
+    )
+  }
 }
 
 Img.propTypes = {
   style: PropTypes.object,
   source: PropTypes.string,
-  objectFit: PropTypes.string
+  objectFit: PropTypes.string,
+  fromWeb: PropTypes.bool
 }
 
 const styles = StyleSheet.create({
