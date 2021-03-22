@@ -1,9 +1,11 @@
 import React from 'react'
 import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 
 import Header from 'components/Header'
-import {Avatar} from 'src/components/Avatar'
-import PostPreview from 'src/components/PostPreview'
+import {Avatar} from 'components/Avatar'
+import PostPreview from 'components/PostPreview'
 
 import Wrapper from 'src/ui/Wrapper'
 import Touch from 'src/ui/Touch'
@@ -12,7 +14,8 @@ import {Btn} from 'src/ui/Btn'
 const numColumns = 3
 const WIDTH = Dimensions.get('window').width
 
-function ProfileScreen() {
+function ProfileScreen({currentUser}) {
+  const {followers, following, login, photoUrl, email} = currentUser
   const data = [
     {key: 1},
     {key: 2},
@@ -40,7 +43,7 @@ function ProfileScreen() {
   return (
     <Wrapper>
       <Header style={styles.header}>
-        <Text style={styles.headerLogin}>christianbale</Text>
+        <Text style={styles.headerLogin}>{login}</Text>
       </Header>
       <View style={styles.body}>
         <View style={{...styles.row, ...styles.bodyProfile}}>
@@ -52,11 +55,11 @@ function ProfileScreen() {
                 <Text style={styles.infoText} numberOfLines={1}>Публикаций</Text>
               </Touch>
               <Touch style={styles.col}>
-                <Text style={styles.infoValue}>1</Text>
+                <Text style={styles.infoValue}>{followers.length}</Text>
                 <Text style={styles.infoText} numberOfLines={1}>Подписчиков</Text>
               </Touch>
               <Touch style={styles.col}>
-                <Text style={styles.infoValue}>10</Text>
+                <Text style={styles.infoValue}>{following.length}</Text>
                 <Text style={styles.infoText} numberOfLines={1}>Подписок</Text>
               </Touch>
             </View>
@@ -83,6 +86,10 @@ function ProfileScreen() {
       </View>
     </Wrapper>
   )
+}
+
+ProfileScreen.propTypes = {
+  currentUser: PropTypes.object
 }
 
 const styles = StyleSheet.create({
@@ -142,4 +149,9 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ProfileScreen
+const mapStateToProps = ({userState}) => ({
+  currentUser: userState.currentUser
+})
+const mapDispatchToProps = (dispatch) => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)

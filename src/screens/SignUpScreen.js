@@ -43,6 +43,7 @@ function SignUpScreen({navigation, signUp}) {
       setMessage('Пароли не совпадают')
       return false
     }
+    return true
   }
 
   const onSignUp = () => {

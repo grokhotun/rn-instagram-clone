@@ -12,41 +12,72 @@ class FirebaseAPI {
     firebase.initializeApp(config)
   }
 
+  async $getCollectionUserByUid(uid) {
+    try {
+      const response = await firebase
+          .firestore()
+          .collection('users')
+          .doc(uid)
+          .get()
+
+      console.log('User from DB', response.data())
+      return response.data()
+    } catch (error) {
+      console.error(`Ошибка в методе getCollectionUser()\n\n${error.message}`)
+    }
+  }
+
   async $createCollectionUser(user) {
-    const {uid, email} = user
+    const {uid, displayName, email, photoUrl} = user
+    const userObject = {
+      uid,
+      createdAt: Date.now().toString(),
+      email,
+      login: email.split('@')[0],
+      displayName: displayName || '',
+      photoUrl: photoUrl || '',
+      following: [],
+      followers: []
+    }
     try {
       await firebase
           .firestore()
           .collection('users')
           .doc(uid)
-          .set({
-            uid,
-            email,
-            createdAt: Date.now().toString(),
-            login: email.split('@')[0],
-            name: email.split('@')[0],
-            photo: ''
-          })
+          .set(userObject)
+
+      return userObject
     } catch (error) {
       console.error(`Ошибка в методе createCollectionRecord()\n\n${error.message}`)
     }
   }
 
-  async createCollectionPost(user) {
-    const {uid, email} = user
+  currentUser() {
+    return firebase.auth().currentUser
+  }
+
+  /**
+   * Метод для создание записи поста в базе данных
+   * @param {object} user Объект пользователя
+   * @param {object} post Объект поста
+   */
+  async createCollectionPost(user, post) {
+    const {uid} = user
+    const postObject = {
+      createdAt: Date.now().toString(),
+      uid,
+      login,
+      avatar,
+      image: '',
+      description,
+      likes: 0
+    }
     try {
       await firebase
           .firestore()
-          .collection('users')
+          .collection('posts')
           .doc(uid)
-          .set({
-            uid,
-            email,
-            createdAt: Date.now().toString(),
-            login: email.split('@')[0],
-            name: email.split('@')[0],
-            photo: ''
-          })
+          .set(postObject)
     } catch (error) {
       console.error(`Ошибка в методе createCollectionPost()\n\n${error.message}`)
     }
@@ -59,11 +90,11 @@ class FirebaseAPI {
    */
   async signUp(email, password) {
     try {
-      const {user} = await firebase
+      await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
-      this.$createCollectionUser(user)
-      return user
+      this.$createCollectionUser(this.currentUser())
+      return this.currentUser()
     } catch (error) {
       console.error(`Ошибка в методе signUp()\n\n${error.message}`)
       return false
@@ -77,10 +108,9 @@ class FirebaseAPI {
    */
   async signIn(email, password) {
     try {
-      const response = await firebase
-          .auth()
-          .signInWithEmailAndPassword(email, password)
-      return response
+      await firebase.auth().signInWithEmailAndPassword(email, password)
+      const user = await this.$getCollectionUserByUid(this.currentUser().uid)
+      return user
     } catch (error) {
       console.error(`Ошибка в методе signIn()\n\n${error.message}`)
       return false
