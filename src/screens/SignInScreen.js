@@ -7,6 +7,7 @@ import {signInUser} from 'src/redux/actions/user'
 
 import {Btn} from 'src/ui/Btn'
 import {Input} from 'src/ui/Input'
+import Wrapper from 'src/ui/Wrapper'
 
 function SignInScreen({navigation, authUser}) {
   const [email, setEmail] = useState('')
@@ -18,35 +19,37 @@ function SignInScreen({navigation, authUser}) {
   const signIn = () => authUser(email, password)
 
   return (
-    <View style={styles.wrapper}>
+    <Wrapper style={styles.wrapper}>
       <View style={styles.header}>
         <Image
           style={{width: 100}}
           source={require('assets/instagram.png')}/>
       </View>
       <View style={styles.body}>
-        <Input
-          onChange={onEmailChangeHandler}
-          value={email}
-          style={{marginBottom: 10}}
-          placeholder='Email'/>
-        <Input
-          onChange={onPasswordChangeHandler}
-          value={password}
-          secureTextEntry={true}
-          placeholder='Пароль'/>
+        <View style={styles.formGroup}>
+          <Input
+            onChange={onEmailChangeHandler}
+            value={email}
+            style={{marginBottom: 10}}
+            placeholder='Email'/>
+        </View>
+        <View style={styles.formGroup}>
+          <Input
+            onChange={onPasswordChangeHandler}
+            value={password}
+            secureTextEntry={true}
+            placeholder='Пароль'/>
+        </View>
       </View>
       <View style={styles.footer}>
-        <Btn
-          onPress={signIn}
-          style={{marginBottom: 10}}>
+        <Btn onPress={signIn} style={styles.footerBtn}>
           Войти
         </Btn>
-        <Btn onPress={toRegister} style={{marginBottom: 10}}>
+        <Btn onPress={toRegister} style={styles.footerBtn}>
           Регистрация
         </Btn>
       </View>
-    </View>
+    </Wrapper>
   )
 }
 
@@ -57,18 +60,28 @@ SignInScreen.propTypes = {
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#e7e7e7'
+    alignItems: 'center'
   },
   header: {
     marginBottom: 10
   },
   body: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  footer: {
+    width: '100%',
+    alignItems: 'center'
+  },
+  footerBtn: {
+    width: 250,
     marginBottom: 10
   },
-  footer: {}
+  formGroup: {
+    width: 250
+  }
 })
 
 const mapDispatchToProps = (dispatch) => ({
