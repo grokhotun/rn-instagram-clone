@@ -45,9 +45,11 @@ function CameraScreen({navigation}) {
   }
 
   return (
-    <Wrapper>
-      <Header/>
-      <View>
+    <Wrapper style={styles.wrapper}>
+      <View style={styles.header}>
+        <Header/>
+      </View>
+      <View style={styles.body}>
         <Camera
           ref={ref => setCamera(ref)}
           style={styles.fixedRatio}
@@ -88,8 +90,17 @@ CameraScreen.propTypes = {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+  },
+  header: {
+    height: 70
+  },
+  body: {
+  },
   footer: {
     flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'

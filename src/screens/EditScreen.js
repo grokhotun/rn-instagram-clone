@@ -11,13 +11,17 @@ import PropTypes from 'prop-types'
 import {createImageBlob} from 'src/utils'
 import {uploadPhoto} from 'src/redux/actions/upload'
 import {connect} from 'react-redux'
-function EditScreen({navigation, route, sendPhoto}) {
+function EditScreen({navigation, route, sendPhoto, currentUser}) {
   const [description, setDescription] = useState('')
+
+  const onInputChange = (text) => {
+    setDescription(text)
+  }
 
   const sendHandler = async () => {
     const imageUri = route.params.image
     const blob = await createImageBlob(imageUri)
-    sendPhoto({}, blob)
+    sendPhoto(currentUser, {photo: blob, description})
     navigation.navigate('Feed')
   }
 
@@ -26,12 +30,13 @@ function EditScreen({navigation, route, sendPhoto}) {
       <View style={styles.row}>
         <View style={styles.image}>
           <Img
-            source={route.params.image}
+            source={`${route.params.image}`}
             objectFit='contain'
           />
         </View>
         <View style={styles.description}>
           <Input
+            onChange={onInputChange}
             value={description}
             multiline={true}
             numberOfLines={8}
@@ -51,7 +56,8 @@ function EditScreen({navigation, route, sendPhoto}) {
 EditScreen.propTypes = {
   route: PropTypes.object,
   navigation: PropTypes.object,
-  sendPhoto: PropTypes.func
+  sendPhoto: PropTypes.func,
+  currentUser: PropTypes.object
 }
 
 const styles = StyleSheet.create({
@@ -59,7 +65,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   row: {
-    width: '100%',
     flexDirection: 'row',
     marginBottom: 10
   },
@@ -73,9 +78,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({userState}) => ({
+  currentUser: userState.currentUser
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  sendPhoto: (user, photo) => dispatch(uploadPhoto(user, photo))
+  sendPhoto: (user, object) => dispatch(uploadPhoto(user, object))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditScreen)

@@ -1,4 +1,5 @@
 import {$api} from 'src/api'
+import {getFeed} from './feed'
 
 const setProgress = (payload) => ({
   type: 'SET_PROGRESS',
@@ -20,7 +21,8 @@ const setIsUploading = (payload) => ({
   payload
 })
 
-const uploadPhoto = (user, photo) => async (dispatch) => {
+const uploadPhoto = (user, object) => async (dispatch) => {
+  const {photo, description} = object
   const task = $api.uploadPhoto(user, photo)
   const taskProgress = (snapshot) => {
     const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -36,7 +38,8 @@ const uploadPhoto = (user, photo) => async (dispatch) => {
     dispatch(setIsUploading(false))
     dispatch(setIsError(false))
     const url = await task.snapshot.ref.getDownloadURL()
-    console.log('done', url)
+    await $api.createCollectionPost(user, url, description)
+    dispatch(getFeed())
   }
   dispatch(setIsUploading(true))
   task.on('state-change', taskProgress, taskError, taskCompleted)

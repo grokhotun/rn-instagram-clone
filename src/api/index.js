@@ -59,16 +59,17 @@ class FirebaseAPI {
   /**
    * Метод для создание записи поста в базе данных
    * @param {object} user Объект пользователя
-   * @param {object} post Объект поста
+   * @param {string} url Ссылка
+   * @param {string} description Описание
    */
-  async createCollectionPost(user, post) {
-    const {uid} = user
+  async createCollectionPost(user, url, description) {
+    const {uid, photoUrl, login} = user
     const postObject = {
       createdAt: Date.now().toString(),
       uid,
       login,
-      avatar,
-      image: '',
+      avatar: photoUrl,
+      image: url,
       description,
       likes: 0
     }
@@ -137,6 +138,7 @@ class FirebaseAPI {
       const response = await firebase
           .firestore()
           .collection('posts')
+          .orderBy('createdAt', 'desc')
           .get()
 
       const data = response.docs.map(post => ({...post.data()}))
@@ -154,7 +156,7 @@ class FirebaseAPI {
    * @return {*} Возвращает объект task
    */
   uploadPhoto(user, file) {
-    const uid = Math.random().toString(36)
+    const {uid} = user
     const path = `posts/${uid}/${Math.random().toString(36)}`
     const task = firebase
         .storage()

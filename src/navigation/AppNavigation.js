@@ -13,7 +13,7 @@ import SignInScreen from 'src/screens/SignInScreen'
 import SignUpScreen from 'src/screens/SignUpScreen'
 import FeedScreen from 'src/screens/FeedScreen'
 // import {SearchScreen} from 'src/screens/SearchScreen'
-import {ProfileScreen} from 'src/screens/ProfileScreen'
+import ProfileScreen from 'src/screens/ProfileScreen'
 import CameraScreen from 'src/screens/CameraScreen'
 import EditScreen from 'src/screens/EditScreen'
 

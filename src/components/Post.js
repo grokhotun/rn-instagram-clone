@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {Avatar} from './Avatar'
 
 export function Post({post}) {
-  const {avatar, ulogin, description, image, likes} = post
+  const {avatar, login, description, image, likes} = post
   return (
     <View style={styles.postCard}>
       <View style={styles.header}>
@@ -13,7 +13,7 @@ export function Post({post}) {
           style={styles.headerPhoto}
           source={avatar}
         />
-        <Text style={styles.headerName}>{ulogin}</Text>
+        <Text style={styles.headerName}>{login}</Text>
       </View>
       <View style={styles.body}>
         <Image style={styles.bodyImg} source={{uri: image}}/>
